@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import styles from './styles/style.scss'
 import mainComp from './components/mainComponent'
 
 export default {
