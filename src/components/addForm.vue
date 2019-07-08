@@ -45,14 +45,12 @@
           items: [],
           id: this.fields.length
         };
-
         this.fields.push(obj);
       },
       insertBlock(item){
         let obj = {
           id: item.items.length
         };
-
         item.items.push(obj);
       },
       delDiv(index){
