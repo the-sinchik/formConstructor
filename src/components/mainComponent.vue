@@ -1,6 +1,6 @@
 <template>
     <div class="main-component">
-        <addForm></addForm>
+        <add-Form></add-Form>
     </div>
 </template>
 

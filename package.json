@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "font-awesome": "^4.7.0",
+    "uniqid": "^5.0.3",
     "vue": "^2.6.10"
   },
   "devDependencies": {
