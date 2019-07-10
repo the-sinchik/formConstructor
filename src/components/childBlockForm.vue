@@ -15,6 +15,9 @@
   .form-btn {
     border: none;
     font-size: 20px;
+    position: absolute;
+    top: 0;
+    right: 2px;
     &:hover {
       cursor: pointer;
     }
