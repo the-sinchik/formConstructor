@@ -14,16 +14,19 @@
         <div class="block-wrap"
              v-if="item.items && item.items.length">
             <div class=" inline-block"
-                 :class="{'activeDrop' : [id !== idItem] && process }"
-                 draggable="true"
-                 @dragstart.stop="$emit('dragstartSmBlock', $event)"
-                 @dragenter.stop="$emit('dragenterSmBlock', id)"
-                 @drop.stop="$emit('dropSmBlock', $event)"
-                 @dragover.stop="$emit('dragoverSmBlock', $event)"
-                 @dragend.stop="$emit('dragendSmBlock', $event)"
-
                  v-for="(div, id) in item.items"
-                 :id="[id]">
+                 :id="[id]"
+                 @dragenter.stop="$emit('handleDragEnter', id)"
+                 @dragover.stop="$emit('handleDragOver', $event)"
+                 @dragleave.stop="$emit('handleDragLeave', $event)"
+                 @drop.stop="$emit('handleDrop', id)">
+
+<!--                 draggable="true"-->
+<!--                 @dragstart.stop="$emit('dragstartSmBlock', $event)"-->
+<!--                 @dragenter.stop="$emit('dragenterSmBlock', id)"-->
+<!--                 @drop.stop="$emit('dropSmBlock', $event)"-->
+<!--                 @dragover.stop="$emit('dragoverSmBlock', $event)"-->
+<!--                 @dragend.stop="$emit('dragendSmBlock', $event)"-->
                 <child-Block-Form
                   @remove="remove(id, item)">
                 </child-Block-Form>
@@ -35,16 +38,18 @@
 
 <script>
   import childBlockForm from './childBlockForm';
+  import formElement from './formElement';
   export default {
     name: "blockFormComponent",
-    components: {childBlockForm},
-    props: ['item', 'idItem', 'process'],
+    components: {childBlockForm, formElement},
+    props: ['item', 'idItem'],
     methods: {
       remove(id, item) {
         item.items.splice(id, 1);
       },
       insertBlock(item){
         let obj = {
+        	listObj: [{}],
           id: item.items.length
         };
         item.items.push(obj);
@@ -55,15 +60,12 @@
 
 <style lang="scss" scoped>
 
-.activeDrop {
-  border: 3px dashed #8080807d !important;
-}
 .form-btn {
   border: none;
   margin-left: 5px;
   font-size: 20px;
   &:hover {
-       cursor: pointer;
+      cursor: pointer;
   }
 }
 
@@ -95,5 +97,9 @@
 .block-wrap {
   display: flex;
   flex-wrap: wrap;
+}
+
+.over {
+  border: 1px dashed gray !important;
 }
 </style>
