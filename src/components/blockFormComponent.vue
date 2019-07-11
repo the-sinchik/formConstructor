@@ -21,6 +21,17 @@
                  @dragleave.stop="$emit('handleDragLeave', $event)"
                  @drop.stop="$emit('handleDrop', id)">
 
+                  <div class="blockForm">
+                    <form-element
+                      v-for="(obj, num) in item.items[id].listObj"
+                      :obj="obj"
+                      :key="obj.id"
+                      :ident="num"
+                      @handleDragStart.stop="handleDragStart($event)"
+                      @handleDragEnd.stop="handleDragEnd($event)">
+                    </form-element>
+                  </div>
+
 <!--                 draggable="true"-->
 <!--                 @dragstart.stop="$emit('dragstartSmBlock', $event)"-->
 <!--                 @dragenter.stop="$emit('dragenterSmBlock', id)"-->
@@ -49,7 +60,7 @@
       },
       insertBlock(item){
         let obj = {
-        	listObj: [{}],
+        	listObj: [],
           id: item.items.length
         };
         item.items.push(obj);

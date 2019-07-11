@@ -7,7 +7,7 @@
            @dragend.stop="$emit('handleDragEnd', $event)"
            :id="[id]"
            :data-type="[type]">
-        <label>Подпись<input type="text"></label>
+        <label>Поле ввода<input type="text"></label>
       </div>
     </div>
     <div v-else-if="type === 'inputRadio'">
@@ -17,7 +17,7 @@
            @dragend.stop="$emit('handleDragEnd', $event)"
            :id="[id]"
            :data-type="[type]">
-        <label>Подпись<input type="radio"></label>
+        <label>Выбор<input type="checkbox"></label>
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@
 	import uniqid from 'uniqid';
 	export default {
 		name: "formElement",
-    props: ['obj'],
+    props: ['obj', 'ident'],
 		data(){
 			return{
 				id: uniqid(),
@@ -42,6 +42,7 @@
   background-color: rgba(0, 255, 168, 0.11);
   padding: 5px;
   margin: 0 10px;
+  text-align: left;
   & label {
   &:hover {
      cursor: pointer;

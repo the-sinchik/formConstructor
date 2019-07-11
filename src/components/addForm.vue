@@ -7,11 +7,12 @@
 
         <div class="blockForm">
             <form-element
-                 v-for="obj in formObject"
+                 v-for="(obj, num) in formObject"
                  :obj="obj"
                  :key="obj.id"
-                 @handleDragStart="handleDragStart($event)"
-                 @handleDragEnd="handleDragEnd($event)">
+                 :ident="num"
+                 @handleDragStart.stop="handleDragStart($event)"
+                 @handleDragEnd.stop="handleDragEnd($event)">
             </form-element>
         </div>
 
@@ -104,25 +105,25 @@
       dragendLgBlock(event){
         event.preventDefault();
       },
-      dragstartSmBlock(event) {
-        event.dataTransfer.setData("par", event.target.getAttribute('id'));
-        this.idItem = event.target.getAttribute('id');
-
-      },
-      dragenterSmBlock(id) {
-        this.ids = id;
-      },
-      dragoverSmBlock(event) {
-        event.preventDefault();
-      },
-      dropSmBlock(event, item) {
-        let data = event.dataTransfer.getData("par");
-        [item.items[data], item.items[this.ids]] = [item.items[this.ids], item.items[data]];
-        item.items = [...item.items];
-      },
-      dragendSmBlock(event){
-        event.preventDefault();
-      },
+      // dragstartSmBlock(event) {
+      //   event.dataTransfer.setData("par", event.target.getAttribute('id'));
+      //   this.idItem = event.target.getAttribute('id');
+      //
+      // },
+      // dragenterSmBlock(id) {
+      //   this.ids = id;
+      // },
+      // dragoverSmBlock(event) {
+      //   event.preventDefault();
+      // },
+      // dropSmBlock(event, item) {
+      //   let data = event.dataTransfer.getData("par");
+      //   [item.items[data], item.items[this.ids]] = [item.items[this.ids], item.items[data]];
+      //   item.items = [...item.items];
+      // },
+      // dragendSmBlock(event){
+      //   event.preventDefault();
+      // },
       handleDragStart(event) {
         event.dataTransfer.effectAllowed = 'copy';
         // event.dataTransfer.setData('text', event.target.getAttribute('id'));
@@ -148,7 +149,7 @@
         event.preventDefault();
         let data = event.dataTransfer.getData("text");
         //
-        // item.items[id].listObj.push({type: data});
+        item.items[id].listObj.push({type: data});
 
         // event.target.appendChild(document.getElementById(data));
         event.target.classList.remove('over');
