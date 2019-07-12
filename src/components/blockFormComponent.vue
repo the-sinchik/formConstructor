@@ -16,10 +16,22 @@
             <div class=" inline-block"
                  v-for="(div, id) in item.items"
                  :id="[id]"
+                 draggable="true"
+                 @dragstart.stop="$emit('dragstartSmBlock', $event)"
                  @dragenter.stop="$emit('handleDragEnter', id)"
                  @dragover.stop="$emit('handleDragOver', $event)"
                  @dragleave.stop="$emit('handleDragLeave', $event)"
                  @drop.stop="$emit('handleDrop', id)">
+
+                  <div class="blockDrag"
+                       :id="[id]"
+                       @dragenter.stop="$emit('dragenterSmBlock', id)"
+                       @dragstart.stop="$emit('dragstartSmBlock', $event)"
+                       @drop.stop="$emit('dropSmBlock', $event)"
+                       @dragover.stop="$emit('dragoverSmBlock', $event)"
+                       @dragend.stop="$emit('dragendSmBlock', $event)"
+                       @dragleave.stop="$emit('dragleaveSmBlock', $event)">
+                  </div>
 
                   <div class="blockForm">
                     <form-element
@@ -31,13 +43,6 @@
                       @handleDragEnd.stop="handleDragEnd($event)">
                     </form-element>
                   </div>
-
-<!--                 draggable="true"-->
-<!--                 @dragstart.stop="$emit('dragstartSmBlock', $event)"-->
-<!--                 @dragenter.stop="$emit('dragenterSmBlock', id)"-->
-<!--                 @drop.stop="$emit('dropSmBlock', $event)"-->
-<!--                 @dragover.stop="$emit('dragoverSmBlock', $event)"-->
-<!--                 @dragend.stop="$emit('dragendSmBlock', $event)"-->
                 <child-Block-Form
                   @remove="remove(id, item)">
                 </child-Block-Form>
@@ -86,7 +91,7 @@
   flex-direction: column;
   flex-wrap: wrap;
   border: 1px solid dimgray;
-  margin: 10px 0;
+  margin: 20px 0;
   padding: 10px;
   min-height: 15px;
 }
@@ -103,7 +108,7 @@
   justify-content: center;
   border: 1px solid tomato;
   padding: 10px;
-  margin: 5px;
+  margin: 5px 6px;
 }
 .block-wrap {
   display: flex;
@@ -112,5 +117,30 @@
 
 .over {
   border: 1px dashed gray !important;
+  &-sm {
+    background-color: #37c9ff7a;
+    box-shadow: 0px 0px 4px 3px #37c9ff;
+  }
+}
+
+.blockDrag {
+  width: 8px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: -11px;
+}
+
+.form-drop {
+  width: 100%;
+  height: 15px;
+  border: 1px solid black;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.wrapper-block {
+  position: relative;
 }
 </style>

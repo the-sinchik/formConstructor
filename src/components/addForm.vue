@@ -18,29 +18,36 @@
 
         <div class="wrapper">
             <div v-for="(item, index) in fields"
+                 class="wrapper-block"
                  :id="index"
                  draggable="true"
-                 @dragstart.stop="dragstartLgBlock($event)"
-                 @dragenter.stop="dragenterLgBlock(index)"
-                 @dragover.stop="dragoverLgBlock($event)"
-                 @drop.stop="dropLgBlock($event)"
-                 @dragend.stop="dragendLgBlock($event)">
+                 @dragend.stop="dragendLgBlock($event)"
+                 @dragstart.stop="dragstartLgBlock($event)">
+                <div class="form-drop"
+                     :id="index"
+                     @dragenter.stop="dragenterLgBlock(index)"
+                     @dragover.stop="dragoverLgBlock($event)"
+                     @drop.stop="dropLgBlock($event)"
+                     @dragleave="dragleaveLgBlock($event)"
+                ></div>
                 <block-Form-Component
                   :item="item"
-                  :idItem="idItem"
                   @delDiv="delDiv(index)"
+
                   @handleDragEnter="handleDragEnter($event)"
                   @handleDragOver="handleDragOver($event)"
                   @handleDragLeave="handleDragLeave($event)"
                   @handleDrop="handleDrop($event, item)"
-                  >
-<!--                  @delDiv="delDiv(index)"-->
-<!--                  @dragstartSmBlock="dragstartSmBlock($event)"-->
-<!--                  @dragenterSmBlock="dragenterSmBlock($event)"-->
-<!--                  @dragoverSmBlock="dragoverSmBlock($event)"-->
-<!--                  @dropSmBlock="dropSmBlock($event, item)"-->
-<!--                  @dragendSmBlock="dragendSmBlock($event)">-->
 
+                  @dragstartSmBlock="dragstartSmBlock($event)"
+                  @dragenterSmBlock="dragenterSmBlock($event)"
+                  @dragoverSmBlock="dragoverSmBlock($event)"
+                  @dropSmBlock="dropSmBlock($event, item)"
+                  @dragendSmBlock="dragendSmBlock($event)"
+                  @dragleaveSmBlock="dragleaveSmBlock($event)">
+
+
+                  
                 </block-Form-Component>
             </div>
         </div>
@@ -61,9 +68,7 @@
         fields: [],
         formObject: [],
         LgId: null,
-        ids: null,
-        idItem: null,
-        testItem: null
+        ids: null
       }
     },
     mounted() {
@@ -83,50 +88,84 @@
         this.fields.push(obj);
       },
       createElem() {
-				this.formObject.push({type: 'inputText'}, {type: 'inputRadio'});
+				this.formObject.push({type: 'inputText', value: null}, {type: 'inputRadio', value: null});
       },
       delDiv(index){
         this.fields.splice(index, 1);
       },
       dragstartLgBlock(event) {
+				let imgLg = document.createElement("img");
+
         event.dataTransfer.setData("param", event.target.getAttribute('id'));
+				event.dataTransfer.setDragImage(imgLg, 0, 0);
       },
       dragenterLgBlock(id) {
         this.LgId = id;
+				event.target.classList.add('over-lg');
+      },
+			dragleaveLgBlock(event) {
+				event.target.classList.remove('over-lg');
       },
       dragoverLgBlock(event) {
         event.preventDefault();
       },
       dropLgBlock(event) {
+				event.preventDefault();
         let data = event.dataTransfer.getData("param");
-        [this.fields[data], this.fields[this.LgId]] = [this.fields[this.LgId], this.fields[data]];
-        this.fields = [...this.fields];
+
+					if (this.LgId >= this.fields.length) {
+						let k = this.LgId - this.fields.length + 1;
+						while (k--) {
+							this.fields.push(undefined);
+						}
+					}
+				  this.fields.splice(this.LgId, 0, this.fields.splice(data, 1)[0]);
+				  event.target.classList.remove('over-lg');
+				  event.stopPropagation();
+					return this.fields;
+
       },
       dragendLgBlock(event){
         event.preventDefault();
       },
-      // dragstartSmBlock(event) {
-      //   event.dataTransfer.setData("par", event.target.getAttribute('id'));
-      //   this.idItem = event.target.getAttribute('id');
-      //
-      // },
-      // dragenterSmBlock(id) {
-      //   this.ids = id;
-      // },
-      // dragoverSmBlock(event) {
-      //   event.preventDefault();
-      // },
-      // dropSmBlock(event, item) {
-      //   let data = event.dataTransfer.getData("par");
-      //   [item.items[data], item.items[this.ids]] = [item.items[this.ids], item.items[data]];
-      //   item.items = [...item.items];
-      // },
-      // dragendSmBlock(event){
-      //   event.preventDefault();
-      // },
+      dragstartSmBlock(event) {
+				let img = document.createElement("img");
+
+        event.dataTransfer.setData("par", event.target.getAttribute('id'));
+				event.dataTransfer.setDragImage(img, 0, 0);
+      },
+      dragenterSmBlock(id) {
+        this.ids = id;
+				event.target.classList.add('over-sm');
+      },
+			dragleaveSmBlock() {
+				event.target.classList.remove('over-sm');
+      },
+      dragoverSmBlock(event) {
+        event.preventDefault();
+      },
+      dropSmBlock(event, item) {
+				event.preventDefault();
+        let data = event.dataTransfer.getData("par");
+
+        if (this.ids >= item.items.length) {
+          let k = this.ids - item.items.length + 1;
+          while (k--) {
+						item.items.push(undefined);
+          }
+        }
+
+				item.items.splice(this.ids, 0, item.items.splice(data, 1)[0]);
+        event.stopPropagation();
+        event.target.classList.remove('over-sm');
+				return item.items;
+
+      },
+      dragendSmBlock(event){
+        event.preventDefault();
+      },
       handleDragStart(event) {
         event.dataTransfer.effectAllowed = 'copy';
-        // event.dataTransfer.setData('text', event.target.getAttribute('id'));
         event.dataTransfer.setData('text', event.target.getAttribute('data-type'))
       },
       handleDragOver(event) {
@@ -136,10 +175,9 @@
         event.dataTransfer.dropEffect = 'copy';
         return false;
       },
-      handleDragEnter(divs) {
+      handleDragEnter() {
         event.preventDefault();
         event.target.classList.add('over');
-        console.log(divs);
       },
       handleDragLeave(event) {
         event.preventDefault();
@@ -148,10 +186,12 @@
       handleDrop(id, item) {
         event.preventDefault();
         let data = event.dataTransfer.getData("text");
-        //
-        item.items[id].listObj.push({type: data});
 
-        // event.target.appendChild(document.getElementById(data));
+        if (item.items[id].listObj.length > 0) {
+					event.target.classList.remove('over');
+        	return;
+        }
+        item.items[id].listObj.push({type: data, value: null});
         event.target.classList.remove('over');
         event.stopPropagation();
         return false;
@@ -169,6 +209,14 @@
   &:hover {
       cursor: pointer;
   }
+}
+
+.form-drop {
+  width: 100%;
+  height: 15px;
+  position: absolute;
+  top: -18px;
+  left: -1px;
 }
 .blockForm {
   border: 1px solid black;
@@ -193,7 +241,19 @@
       cursor: pointer;
   }
 }
+
+.wrapper-block {
+  position: relative;
+}
+
 .over {
   border: 1px dashed gray !important;
+  &-sm {
+    background-color: #37c9ff;
+  }
+  &-lg {
+    background-color: #37c9ff7a;
+    box-shadow: 0px 0px 4px 3px #37c9ff;
+  }
 }
 </style>
