@@ -1,19 +1,21 @@
 <template>
   <div id="app">
-    <main-comp></main-comp>
+<!--    <main-comp></main-comp>-->
+    <box-component></box-component>
     <temp-component></temp-component>
   </div>
 </template>
 
 <script>
-import mainComp from './components/mainComponent'
+// import mainComp from './components/mainComponent'
 import tempComponent from './components/tempComponent'
+import boxComponent from './components/boxComponent'
 
 export default {
   name: 'app',
   components: {
-    mainComp,
-		tempComponent
+		tempComponent,
+		boxComponent
   }
 }
 </script>
