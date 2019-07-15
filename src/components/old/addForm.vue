@@ -6,14 +6,14 @@
         </button>
 
         <div class="blockForm">
-            <form-element
-                 v-for="(obj, num) in formObject"
-                 :obj="obj"
-                 :key="obj.id"
-                 :ident="num"
-                 @handleDragStart.stop="handleDragStart($event)"
-                 @handleDragEnd.stop="handleDragEnd($event)">
-            </form-element>
+<!--            <form-element-->
+<!--                 v-for="(obj, num) in formObject"-->
+<!--                 :obj="obj"-->
+<!--                 :key="obj.id"-->
+<!--                 :ident="num"-->
+<!--                 @handleDragStart.stop="handleDragStart($event)"-->
+<!--                 @handleDragEnd.stop="handleDragEnd($event)">-->
+<!--            </form-element>-->
         </div>
 
         <div class="wrapper">

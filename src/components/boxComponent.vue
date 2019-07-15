@@ -1,10 +1,10 @@
 <template>
   <div class="box-component">
-    <form-element
-      v-for="(obj, num) in formObject"
-      :obj="obj"
-      :key="obj.id">
-    </form-element>
+<!--    <form-element-->
+<!--      v-for="(obj, num) in formObject"-->
+<!--      :obj="obj"-->
+<!--      :key="obj.id">-->
+<!--    </form-element>-->
   </div>
 </template>
 

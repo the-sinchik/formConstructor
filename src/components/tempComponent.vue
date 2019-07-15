@@ -2,7 +2,9 @@
   <div>
     <button @click="addContainer()">
       add container</button>
+
     <div class="container-block">
+      <i class="fas fa-camera"></i>
       <container-component
         v-for="(count, id) in containers"
         :key="id"
