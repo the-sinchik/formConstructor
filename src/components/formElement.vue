@@ -1,24 +1,20 @@
 <template>
   <div>
     <div v-if="type === 'inputText'">
-      <div class="element"
-           draggable="ture"
-           @dragstart.stop="$emit('handleDragStart', $event)"
-           @dragend.stop="$emit('handleDragEnd', $event)"
-           :id="[id]"
-           :data-type="[type]">
-        <label>Поле ввода<input type="text"></label>
-      </div>
+      <i class="fa fa-align-justify icon"
+         draggable="ture"
+         @dragstart.stop="$emit('handleDragStart', $event)"
+         @dragend.stop="$emit('handleDragEnd', $event)"
+         :id="[id]"
+         :data-type="[type]"></i>
     </div>
     <div v-else-if="type === 'inputRadio'">
-      <div class="element"
-           draggable="ture"
-           @dragstart.stop="$emit('handleDragStart', $event)"
-           @dragend.stop="$emit('handleDragEnd', $event)"
-           :id="[id]"
-           :data-type="[type]">
-        <label>Выбор<input type="checkbox"></label>
-      </div>
+      <i class="fa fa-check-square icon"
+         draggable="ture"
+         @dragstart.stop="$emit('handleDragStart', $event)"
+         @dragend.stop="$emit('handleDragEnd', $event)"
+         :id="[id]"
+         :data-type="[type]"></i>
     </div>
   </div>
 </template>
@@ -57,5 +53,10 @@
 }
 .over {
   border: 1px dashed gray !important;
+}
+
+.icon {
+  font-size: 25px;
+  margin: 0 5px;
 }
 </style>

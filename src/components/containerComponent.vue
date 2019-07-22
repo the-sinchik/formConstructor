@@ -9,14 +9,12 @@
             @drop.stop="$emit('containerDrop', $event)"
             @dragleave="$emit('containerDragLeave', $event)">
     </div>
-    <button @click="$emit('addRow')"
-            class="add-btn">
-      +
-    </button>
-    <button @click="$emit('removeContainer')"
-            class="delete-btn">
-      X
-    </button>
+    <i class="fa fa-plus add-btn"
+       @click="$emit('addRow')">
+    </i>
+    <i class="fa fa-minus delete-btn"
+       @click="$emit('removeContainer')">
+    </i>
     <row-component
             v-for="(item, index) in row"
             :key="index"
@@ -115,15 +113,23 @@
 
   .add-btn {
     position: absolute;
-    top: -10px;
+    font-size: 20px;
+    top: 0px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
+    &:hover {
+      cursor: pointer;
+    }
   }
   .delete-btn {
     position: absolute;
-    top: -10px;
-    right: -10px;
+    top: 0px;
+    right: 4px;
+    font-size: 20px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
 </style>

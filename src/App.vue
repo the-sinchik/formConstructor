@@ -8,6 +8,7 @@
 
 <script>
 // import mainComp from './components/mainComponent'
+import style from './styles/style.scss'
 import tempComponent from './components/tempComponent'
 import boxComponent from './components/boxComponent'
 

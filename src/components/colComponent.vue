@@ -2,7 +2,9 @@
   <div class="col-block"
        draggable="true"
        :id="colId"
-       @dragstart.stop="$emit('colDragStart', $event)">
+       @dragstart.stop="$emit('colDragStart', $event)"
+
+       @dragenter="objDragEnter($event)">
     <div class="col-drop"
          :id="colId"
 
@@ -12,10 +14,9 @@
          @dragleave="$emit('colDragLeave', $event)">
 
     </div>
-    <button @click="$emit('removeCol')"
-            class="delete-btn">
-      X
-    </button>
+    <i class="fa fa-minus delete-btn"
+       @click="$emit('removeCol')">
+    </i>
     <div>
 
     </div>
@@ -29,7 +30,12 @@
     components: {
 			'tempComponent': tempComponent
     },
-		props: ['colId']
+		props: ['colId'],
+    methods: {
+			objDragEnter(event) {
+				console.log(event.target);
+      }
+    }
 	}
 </script>
 
@@ -44,7 +50,7 @@
       justify-content: center;
       border: 1px solid #ffab1c;
       padding: 10px;
-      margin-top: 15px;
+      margin-top: 20px;
       margin-bottom: 5px;
       margin-left: 20px;
       background-color: #ffaf00;
@@ -71,6 +77,10 @@
   .delete-btn {
     position: absolute;
     top: 0px;
-    right: 0px;
+    right: 4px;
+    font-size: 20px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 </style>

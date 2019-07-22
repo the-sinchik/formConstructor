@@ -1,10 +1,9 @@
 <template>
   <div>
-    <button @click="addContainer()">
-      add container</button>
+      <i class="fa fa-plus add-btn"
+         @click="addContainer()"></i>
 
     <div class="container-block">
-      <i class="fas fa-camera"></i>
       <container-component
         v-for="(count, id) in containers"
         :key="id"
@@ -22,6 +21,8 @@
         @containerDragOver="containerDragOver($event)"
         @containerDrop="containerDrop($event)">
       </container-component>
+      <button @click="test()">test</button>
+      <button @click="test2()">test2</button>
     </div>
   </div>
 
@@ -29,6 +30,9 @@
 
 <script>
 	import containerComponent from './containerComponent';
+	import store from '../store';
+	import { mapState } from 'vuex';
+
 	export default {
 		name: "tempComponent",
 		components: {containerComponent},
@@ -37,6 +41,11 @@
       	containers: [],
 				containerId: null
       }
+		},
+		computed: {
+			...mapState({
+				selectedSubject: state => state.boxComponent.selectedSubject,
+			})
 		},
     methods: {
 			addContainer() {
@@ -75,6 +84,7 @@
       containerDrop(event) {
 				event.preventDefault();
 				let data = event.dataTransfer.getData("text");
+
 				if (this.containerId >= this.containers.length) {
 					let k = this.containerId - this.containers.length + 1;
 					while (k--) {
@@ -84,13 +94,28 @@
 				this.containers.splice(this.containerId, 0, this.containers.splice(data, 1)[0]);
 				event.target.classList.remove('over-cont');
 				event.stopPropagation();
+
 				return this.containers;
-      }
+      },
+      test() {
+				store.commit('boxComponent/clearObject');
+      },
+			test2() {
+				let temp = this.selectedSubject;
+				console.log(temp);
+			}
     }
 	}
 </script>
 
 <style lang="scss" scoped>
 
+  .add-btn {
+    font-size: 20px;
+    z-index: 100;
+    &:hover {
+      cursor: pointer;
+    }
+  }
 
 </style>
